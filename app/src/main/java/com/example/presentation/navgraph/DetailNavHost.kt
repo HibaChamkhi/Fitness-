@@ -6,9 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.fitness.SOME_SCREEN
-import com.example.fitness.TIMER_SCREEN
-import com.example.fitness.WORKOUT_DETAIL_SCREEN
+
 import com.example.presentation.summary.SomeScreen
 import com.example.presentation.summary.SummaryScreen
 import com.example.presentation.summary.TimerScreen
@@ -24,12 +22,10 @@ fun DetailNavHost(navController: NavHostController) {
         composable("workout_list") {
             SummaryScreen(
                 onWorkoutClick = { workoutId ->
-                    // Navigate to workout detail passing workoutId
                     navController.navigate("workout_detail/$workoutId")
                 }
             )
         }
-
         composable(
             route = "workout_detail/{workoutId}",
             arguments = listOf(navArgument("workoutId") {
@@ -46,33 +42,23 @@ fun DetailNavHost(navController: NavHostController) {
                     activeCalories = "450 kcal"
                 ),
                 onBackClick = { navController.popBackStack() },
-                onShareClick = { /* Handle share logic */ },
-                onNavigateToSomeScreen = { navController.navigate(SOME_SCREEN) }
+                onNavigateToSomeScreen = { navController.navigate("some_screen") }
             )
-//            NavHost(navController = navController, startDestination = WORKOUT_DETAIL_SCREEN) {
-//                composable(WORKOUT_DETAIL_SCREEN) {
-//                    WorkoutDetailScreen(
-//                        workoutDetail = WorkoutDetail(
-//                            workoutId = "1",
-//                            workoutDate = "Dec 26, 2024",
-//                            workoutTitle = "Morning Cardio",
-//                            workoutTimeRange = "6:00 AM - 7:00 AM",
-//                            totalWorkoutTime = "1h",
-//                            activeCalories = "450 kcal"
-//                        ),
-//                        onBackClick = { navController.popBackStack() },
-//                        onShareClick = { /* Handle share logic */ },
-//                        onNavigateToSomeScreen = { navController.navigate(SOME_SCREEN) }
-//                    )
-//                }
-//                composable(SOME_SCREEN) {
-//                    SomeScreen(navController = navController)
-//                }
-//                composable(TIMER_SCREEN) {
-//                    TimerScreen()
-//                }
-//            }
+
         }
+        composable("some_screen") {
+            SomeScreen(navController = navController)
+        }
+        composable(
+            route = "timer_screen",
+        ) { backStackEntry ->
+            TimerScreen(
+                onBackClick = {
+                    navController.popBackStack("workout_detail/1", false)
+                }
+            )
+        }
+
 
     }
 }

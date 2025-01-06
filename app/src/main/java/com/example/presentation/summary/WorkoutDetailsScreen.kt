@@ -31,7 +31,9 @@ fun WorkoutDetailScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
-    onNavigateToSomeScreen: () -> Unit = {}
+    onNavigateToSomeScreen: () -> Unit = {
+
+    }
 ) {
     Surface(
         modifier = modifier
