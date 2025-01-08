@@ -73,4 +73,13 @@ dependencies {
 
     // Coil SVG support
     implementation("io.coil-kt:coil-svg:2.4.0")
+
+    implementation(libs.kotlinx.serialization.json)
+
+
+
+    implementation ("com.google.dagger:hilt-android:2.51.1")
+
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+
 }

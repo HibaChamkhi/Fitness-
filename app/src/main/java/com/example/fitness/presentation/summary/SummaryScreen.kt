@@ -1,4 +1,4 @@
-package com.example.presentation.summary
+package com.example.fitness.presentation.summary
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +24,6 @@ import com.example.fitness.R
 
 @Composable
 fun SummaryScreen(
-    modifier: Modifier = Modifier,
     onWorkoutClick: (String) -> Unit
 ) {
     val workoutList = listOf(
@@ -87,8 +86,3 @@ fun SummaryScreen(
     }
 }
 
-//@Preview
-//@Composable
-//fun PreviewSummaryScreen() {
-//    SummaryScreen()
-//}

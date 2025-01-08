@@ -1,30 +1,27 @@
-package com.example.presentation.navgraph
-
+package com.example.fitness.presentation.navgraph
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-
-import com.example.presentation.summary.SomeScreen
-import com.example.presentation.summary.SummaryScreen
-import com.example.presentation.summary.TimerScreen
-import com.example.presentation.summary.WorkoutDetail
+import com.example.fitness.presentation.MainScreen
+import com.example.fitness.presentation.summary.SomeScreen
+import com.example.fitness.presentation.summary.TimerScreen
+import com.example.fitness.presentation.summary.TimerViewModel
+import com.example.fitness.presentation.summary.WorkoutDetail
 import com.example.workoutdetails.WorkoutDetailScreen
 
 @Composable
-fun DetailNavHost(navController: NavHostController) {
+fun MainNavHost(navController: NavHostController) {
+    val viewModel: TimerViewModel = hiltViewModel()
     NavHost(
         navController = navController,
-        startDestination = "workout_list"
+        startDestination = ScreenRoutes.MainScreen.route
     ) {
-        composable("workout_list") {
-            SummaryScreen(
-                onWorkoutClick = { workoutId ->
-                    navController.navigate("workout_detail/$workoutId")
-                }
-            )
+        composable(ScreenRoutes.MainScreen.route) {
+            MainScreen(navController = navController)
         }
         composable(
             route = "workout_detail/{workoutId}",
@@ -34,7 +31,7 @@ fun DetailNavHost(navController: NavHostController) {
         ) { backStackEntry ->
             WorkoutDetailScreen(
                 workoutDetail = WorkoutDetail(
-                    workoutId = "1",
+                    workoutId = backStackEntry.arguments?.getLong("workoutId").toString(),
                     workoutDate = "Dec 26, 2024",
                     workoutTitle = "Morning Cardio",
                     workoutTimeRange = "6:00 AM - 7:00 AM",
@@ -42,24 +39,24 @@ fun DetailNavHost(navController: NavHostController) {
                     activeCalories = "450 kcal"
                 ),
                 onBackClick = { navController.popBackStack() },
-                onNavigateToSomeScreen = { navController.navigate("some_screen") }
-            )
-
-        }
-        composable("some_screen") {
-            SomeScreen(navController = navController)
-        }
-        composable(
-            route = "timer_screen",
-        ) { backStackEntry ->
-            TimerScreen(
-                onBackClick = {
-                    navController.popBackStack("workout_detail/1", false)
+                onNavigateToSomeScreen = {
+                    navController.navigate(ScreenRoutes.SomeScreen.route)
                 }
             )
         }
-
-
+        composable(route = ScreenRoutes.SomeScreen.route) {
+            SomeScreen(navController = navController)
+        }
+        composable(
+            route = ScreenRoutes.TimerScreen.route,
+        ) { backStackEntry ->
+            TimerScreen(
+                onBackClick = {
+                    navController.popBackStack(ScreenRoutes.WorkoutDetail.route, false)
+                },
+                viewModel = viewModel
+            )
+        }
     }
 }
 

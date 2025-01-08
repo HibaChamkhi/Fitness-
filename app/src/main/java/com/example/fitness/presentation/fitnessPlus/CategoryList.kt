@@ -1,4 +1,4 @@
-package com.example.presentation.fitnessPlus
+package com.example.fitness.presentation.fitnessPlus
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,10 +36,9 @@ fun CategoryList(
 ) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp) // space between items
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(categories) { item ->
-            // Call the Category composable
             Category(
                 title = item.title,
                 icon = item.icon
@@ -55,8 +54,8 @@ fun Category(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))         // Rounded corners
-            .background(MaterialTheme.colorScheme.tertiary)                  // Background color
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         Row(

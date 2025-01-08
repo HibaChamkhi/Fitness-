@@ -1,4 +1,4 @@
-package com.example.presentation.summary
+package com.example.fitness.presentation.summary
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -41,7 +41,7 @@ fun CircularCountdownTimer(
                 easing = LinearEasing
             )
         )
-        onTimerFinish() // Notify when animation completes
+        onTimerFinish()
     }
 
     LaunchedEffect(Unit) {

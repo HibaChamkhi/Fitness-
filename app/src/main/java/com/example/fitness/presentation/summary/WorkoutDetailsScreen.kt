@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.presentation.summary.WorkoutDetail
+import com.example.fitness.presentation.summary.WorkoutDetail
 
 
 @Composable
@@ -85,7 +85,6 @@ fun TopBar(
             .padding(top = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Back arrow
         IconButton(onClick = onBackClick) {
             Image(
                 painter = rememberAsyncImagePainter(
@@ -97,8 +96,6 @@ fun TopBar(
                 modifier = Modifier.size(17.dp)
             )
         }
-
-        // Summary text
         Text(
             text = "Summary",
             color = Color(0xFFADFF2F),
@@ -107,8 +104,6 @@ fun TopBar(
         )
 
         Spacer(modifier = Modifier.weight(1f))
-
-        // Date
         Text(
             text = workoutDate,
             color = Color.White,
@@ -116,8 +111,6 @@ fun TopBar(
         )
 
         Spacer(modifier = Modifier.width(8.dp))
-
-        // Share icon
         IconButton(onClick = onShareClick) {
             Image(
                 painter = rememberAsyncImagePainter(
@@ -210,7 +203,6 @@ fun WorkoutInfoCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Workout Time
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = "Workout Time",
@@ -224,8 +216,6 @@ fun WorkoutInfoCard(
                         fontWeight = FontWeight.Bold
                     )
                 }
-
-                // Active Calories
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = "Active Calories",
@@ -234,7 +224,7 @@ fun WorkoutInfoCard(
                     )
                     Text(
                         text = activeCalories,
-                        color = Color(0xFFFF3B30), // Red color
+                        color = Color(0xFFFF3B30),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )

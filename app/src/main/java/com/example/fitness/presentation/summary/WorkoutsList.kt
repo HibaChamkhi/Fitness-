@@ -1,4 +1,4 @@
-package com.example.presentation.summary
+package com.example.fitness.presentation.summary
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -69,7 +69,7 @@ fun Workout(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .clickable {  // Handle your click here
+            .clickable {
                 onClick()
             }
             .background(MaterialTheme.colorScheme.tertiary)

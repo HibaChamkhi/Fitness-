@@ -1,4 +1,4 @@
-package com.example.presentation
+package com.example.fitness.presentation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,18 +15,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.fitness.BottomNavigationItem
 import com.example.fitness.R
-import com.example.presentation.fitnessPlus.FitnessPlusScreen
-import com.example.presentation.navgraph.DetailNavHost
-import com.example.presentation.sharing.SharingScreen
+import com.example.fitness.presentation.fitnessPlus.FitnessPlusScreen
+import com.example.fitness.presentation.navgraph.ScreenRoutes
+import com.example.fitness.presentation.sharing.SharingScreen
+import com.example.fitness.presentation.summary.SummaryScreen
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 
-fun MainScreen() {
+fun MainScreen(navController: NavController) {
     val items = listOf(
         BottomNavigationItem(
             title = "Summary",
@@ -47,7 +49,6 @@ fun MainScreen() {
 
     var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
 
-    // Notice we do NOT suppress the Scaffold padding parameter anymore
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = Color.Black,
@@ -62,7 +63,11 @@ fun MainScreen() {
         }
     ) { innerPadding ->
         when (selectedItemIndex) {
-            0 -> DetailNavHost(navController = rememberNavController())
+            0 ->    SummaryScreen(
+                onWorkoutClick = { workoutId ->
+                    navController.navigate(ScreenRoutes.WorkoutDetail.route)
+                }
+            )
             1 -> FitnessPlusScreen(Modifier.padding(innerPadding))
             2 -> SharingScreen(Modifier.padding(innerPadding))
         }

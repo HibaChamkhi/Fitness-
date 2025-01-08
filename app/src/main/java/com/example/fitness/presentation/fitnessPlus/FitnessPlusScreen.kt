@@ -1,4 +1,4 @@
-package com.example.presentation.fitnessPlus
+package com.example.fitness.presentation.fitnessPlus
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

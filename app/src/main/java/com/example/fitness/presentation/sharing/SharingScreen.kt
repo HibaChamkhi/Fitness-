@@ -1,4 +1,4 @@
-package com.example.presentation.sharing
+package com.example.fitness.presentation.sharing
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -79,20 +79,15 @@ fun SharingScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Top section
         SharingHeader(
             imageResId = headerImageResId,
             title = headerTitle
         )
-
-        // Middle text
         Text(
             text = middleText,
             color = Color.White,
             fontSize = 30.sp
         )
-
-        // Bottom text
         Text(
             text = bottomText,
             color = MaterialTheme.colorScheme.secondary,

@@ -1,4 +1,4 @@
-package com.example.presentation
+package com.example.fitness.presentation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme

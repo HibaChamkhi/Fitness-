@@ -1,4 +1,4 @@
-package com.example.presentation.fitnessPlus
+package com.example.fitness.presentation.fitnessPlus
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,6 @@ fun CyclingList(
         horizontalArrangement = Arrangement.spacedBy(8.dp) // space between items
     ) {
         items(cycling) { item ->
-            // Call the Cycling composable
             Cycling(
                 title = item.title,
                 subTitle = item.subTitle,
@@ -44,7 +43,6 @@ fun CyclingList(
 fun Cycling(
     title: String,
     subTitle: String,
-    modifier: Modifier = Modifier
 ) {
  Column {
      RoundedRectangleCanvas()

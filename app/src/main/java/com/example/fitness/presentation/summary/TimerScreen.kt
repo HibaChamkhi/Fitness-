@@ -1,6 +1,6 @@
-package com.example.presentation.summary
 
-import androidx.compose.runtime.Composable
+package com.example.fitness.presentation.summary
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,11 +9,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,34 +21,19 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.fitness.R
-import kotlinx.coroutines.delay
+
 
 @Composable
 fun TimerScreen(
+    viewModel: TimerViewModel,
     onBackClick: () -> Unit = {},
-    onStartClick: () -> Unit = {},
-    onPlusClick: () -> Unit = {},
-    onMinusClick: () -> Unit = {},
+    onShareClick: () -> Unit = {},
     title: String = "Strength Training"
 ) {
+    val timeLeft by viewModel.timeLeft.collectAsState()
+    val isRunning by viewModel.isRunning.collectAsState()
 
-    var timeLeft by remember { mutableStateOf(1200) }
-    var isRunning by remember { mutableStateOf(false) }
-    val formattedTime = remember(timeLeft) {
-        formatSecondsAsHHmmss(timeLeft)
-    }
-
-    LaunchedEffect(isRunning) {
-        if (isRunning) {
-            while (timeLeft > 0 && isRunning) {
-                delay(1000)
-                timeLeft--
-            }
-            if (timeLeft == 0) {
-                isRunning = false
-            }
-        }
-    }
+    val formattedTime = formatSecondsAsHHmmss(timeLeft)
 
     Box(
         modifier = Modifier
@@ -69,6 +52,7 @@ fun TimerScreen(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Back icon
                 IconButton(onClick = onBackClick) {
                     Image(
                         painter = rememberAsyncImagePainter(
@@ -94,30 +78,27 @@ fun TimerScreen(
                     color = Color.White,
                     fontSize = 16.sp
                 )
+
                 Spacer(modifier = Modifier.weight(1f))
-
-                Image(
-                    painter = rememberAsyncImagePainter(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(R.drawable.share)
-                            .build()
-                    ),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
+                IconButton(onClick = onShareClick) {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(R.drawable.share)
+                                .build()
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
-
-            // Time display
             Spacer(modifier = Modifier.height(40.dp))
-
             Text(
                 text = formattedTime, // e.g. "00:20:00"
                 color = Color.White,
                 fontSize = 48.sp
             )
             Spacer(modifier = Modifier.height(40.dp))
-
-            // Large Play/Pause button
             Box(
                 modifier = Modifier
                     .size(80.dp)
@@ -125,10 +106,7 @@ fun TimerScreen(
                 contentAlignment = Alignment.Center
             ) {
                 IconButton(
-                    onClick = {
-                        isRunning = !isRunning
-                        onStartClick()
-                    }
+                    onClick = { viewModel.onToggleTimer() }
                 ) {
                     Image(
                         painter = rememberAsyncImagePainter(
@@ -146,19 +124,16 @@ fun TimerScreen(
             }
 
             Spacer(modifier = Modifier.height(40.dp))
-
-            // Plus / minus row
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(40.dp)
             ) {
                 IconButton(
-                    onClick = onMinusClick,
+                    onClick = { viewModel.onDecrementTime() },
                     modifier = Modifier
                         .size(50.dp)
                         .background(Color(0xFFFF3B30), CircleShape)
                 ) {
-                    // Swap to the correct minus icon if needed
                     Image(
                         painter = rememberAsyncImagePainter(
                             model = ImageRequest.Builder(LocalContext.current)
@@ -170,12 +145,11 @@ fun TimerScreen(
                     )
                 }
                 IconButton(
-                    onClick = onPlusClick,
+                    onClick = { viewModel.onIncrementTime() },
                     modifier = Modifier
                         .size(50.dp)
                         .background(Color(0xFFFF3B30), CircleShape)
                 ) {
-                    // Swap to the correct plus icon if needed
                     Image(
                         painter = rememberAsyncImagePainter(
                             model = ImageRequest.Builder(LocalContext.current)
@@ -189,14 +163,8 @@ fun TimerScreen(
             }
 
             Spacer(modifier = Modifier.weight(1f))
-
-            // Bottom "Start/Pause" button
             Button(
-                onClick = {
-                    // Toggle the countdown
-                    isRunning = !isRunning
-                    onStartClick()
-                },
+                onClick = { viewModel.onToggleTimer() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
@@ -214,6 +182,7 @@ fun TimerScreen(
     }
 }
 
+// Helper function to format HH:mm:ss
 private fun formatSecondsAsHHmmss(totalSeconds: Int): String {
     val hours = totalSeconds / 3600
     val minutes = (totalSeconds % 3600) / 60

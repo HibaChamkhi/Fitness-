@@ -5,8 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.compose.rememberNavController
 import com.example.fitness.ui.theme.FitnessTheme
-import com.example.presentation.MainScreen
+import com.example.fitness.presentation.MainScreen
+import com.example.fitness.presentation.navgraph.MainNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
 data class BottomNavigationItem(
     val title: String,
@@ -14,6 +17,7 @@ data class BottomNavigationItem(
     val unselectedIcon: ImageVector,
 )
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,11 +27,12 @@ class MainActivity : ComponentActivity() {
                 darkTheme = false,
                 dynamicColor = false
             ) {
-                MainScreen()
+                MainNavHost(navController = rememberNavController())
             }
         }
     }
 }
+
 
 
 
